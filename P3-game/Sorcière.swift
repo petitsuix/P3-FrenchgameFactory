@@ -1,5 +1,5 @@
 //
-//  Magicien.swift
+//  Sorcière.swift
 //  P3-game
 //
 //  Created by Richardier on 10/08/2020.
@@ -9,4 +9,4 @@
 import Foundation
 
 
-class Wizzard: Character {}
+class Sorcerer: Character {}

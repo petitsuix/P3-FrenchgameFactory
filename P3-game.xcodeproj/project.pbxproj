@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		976D56EA24E1C2830076E949 /* Druide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D56E924E1C2830076E949 /* Druide.swift */; };
+		976D56EC24E1C2900076E949 /* Magicien.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D56EB24E1C28F0076E949 /* Magicien.swift */; };
+		976D56EE24E1C29B0076E949 /* Sorcière.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D56ED24E1C29B0076E949 /* Sorcière.swift */; };
+		976D56F024E1C2A80076E949 /* Dragon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D56EF24E1C2A80076E949 /* Dragon.swift */; };
+		976D56F224E1C2B10076E949 /* Chevalier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D56F124E1C2B10076E949 /* Chevalier.swift */; };
 		EF8D003424CED1F100FF4759 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003324CED1F100FF4759 /* main.swift */; };
 		EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003A24CED2EF00FF4759 /* Game.swift */; };
 		EF8D003D24CED44A00FF4759 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003C24CED44A00FF4759 /* Player.swift */; };
 		EF8D003F24CED46D00FF4759 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003E24CED46D00FF4759 /* Character.swift */; };
 		EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D004024CED48C00FF4759 /* Weapon.swift */; };
-		EF9BBA5224D180EC0014F753 /* Magicien.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9BBA5124D180EC0014F753 /* Magicien.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,13 +32,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		976D56E924E1C2830076E949 /* Druide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Druide.swift; sourceTree = "<group>"; };
+		976D56EB24E1C28F0076E949 /* Magicien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magicien.swift; sourceTree = "<group>"; };
+		976D56ED24E1C29B0076E949 /* Sorcière.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sorcière.swift"; sourceTree = "<group>"; };
+		976D56EF24E1C2A80076E949 /* Dragon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dragon.swift; sourceTree = "<group>"; };
+		976D56F124E1C2B10076E949 /* Chevalier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chevalier.swift; sourceTree = "<group>"; };
 		EF8D003024CED1F100FF4759 /* P3-game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "P3-game"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D003324CED1F100FF4759 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		EF8D003A24CED2EF00FF4759 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EF8D003C24CED44A00FF4759 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		EF8D003E24CED46D00FF4759 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		EF8D004024CED48C00FF4759 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
-		EF9BBA5124D180EC0014F753 /* Magicien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magicien.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +79,11 @@
 				EF8D003A24CED2EF00FF4759 /* Game.swift */,
 				EF8D003C24CED44A00FF4759 /* Player.swift */,
 				EF8D003E24CED46D00FF4759 /* Character.swift */,
-				EF9BBA5124D180EC0014F753 /* Magicien.swift */,
+				976D56EB24E1C28F0076E949 /* Magicien.swift */,
+				976D56F124E1C2B10076E949 /* Chevalier.swift */,
+				976D56EF24E1C2A80076E949 /* Dragon.swift */,
+				976D56E924E1C2830076E949 /* Druide.swift */,
+				976D56ED24E1C29B0076E949 /* Sorcière.swift */,
 				EF8D004024CED48C00FF4759 /* Weapon.swift */,
 			);
 			path = "P3-game";
@@ -135,11 +147,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				976D56EA24E1C2830076E949 /* Druide.swift in Sources */,
 				EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */,
 				EF8D003424CED1F100FF4759 /* main.swift in Sources */,
+				976D56F224E1C2B10076E949 /* Chevalier.swift in Sources */,
+				976D56EC24E1C2900076E949 /* Magicien.swift in Sources */,
 				EF8D003D24CED44A00FF4759 /* Player.swift in Sources */,
+				976D56F024E1C2A80076E949 /* Dragon.swift in Sources */,
 				EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */,
-				EF9BBA5224D180EC0014F753 /* Magicien.swift in Sources */,
+				976D56EE24E1C29B0076E949 /* Sorcière.swift in Sources */,
 				EF8D003F24CED46D00FF4759 /* Character.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,8 @@
 
 import Foundation
 
+var game = Game()
 
-var manon = Player()
-manon.createMySquad()
 
+game.startGame()
+game.startFight()
