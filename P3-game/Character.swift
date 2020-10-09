@@ -10,7 +10,13 @@ import Foundation
 
 class Character {
     
-  // ⬇︎ Type du personnage : Magicien, Chevalier, Druide...
+    
+    var description = ""
+    
+    // ⬇︎ Un nom propre à chaque personnage
+    var characterName = String()
+    
+    // ⬇︎ Type du personnage : Magicien, Guerrier, Nain...
     var characterType = String()
     
   // ⬇︎ Nombre de points de vie du personnage
@@ -19,30 +25,37 @@ class Character {
   // ⬇︎ Nombre de points de vie maximum du personnage
     var maxHp = 100
     
-  // ⬇︎ Arme du personnage
-    var weapon = Weapon()
+    var healSkill = Int()
     
-  // ⬇︎ Dégats infligés par le personnage
-    var damagePoints = Int()
+    // ⬇︎ Détermine qui fait l'action :
+    var fightingCharacterNumber = Int()
     
-  // ⬇︎ Addition de tous les dégats infligés par le personnage
-    var totalDamages = 0
+//  // ⬇︎ Arme du personnage
+    var weapon = Weapon(weaponType: "", damages: 0)
+    
+    var defaultCharacterDamages = Int()
   // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction createMySquad de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà.
     static var charactersNames = [String]()
     
-  // ⬇︎ Un nom propre à chaque personnage
-    var characterName = String()
-    
-  // ⬇︎ Permet de présenter les charactéristiques des personnages
-    func present() {
-        print("\(characterName) a \(hp) et \(weapon.damage) points d'attaque")
+    let name: String
+  
+    init(name: String) {
+        self.name = name
     }
-    
+//  // ⬇︎ Permet de présenter les charactéristiques des personnages
+//    func present() {
+//        print("\(characterName) a \(hp) et son arme cause \(damagePoints) de dégâts")
+//    }
+//    
   /*  func strongestCharacter(character: Character) -> String {
         if character.damagePoints >
         return "Le personnage le plus fort est \(character)"
     }
  */
+    
+    
+    
 }
 
-    
+
+

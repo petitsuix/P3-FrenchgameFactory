@@ -18,22 +18,34 @@ class Player {
     
     var didIWin: String?
     
+    // ⬇︎ Instances des différentes classes
+    let priest = Priest()
+    let warrior = Warrior()
+    let magus = Magus(/*WeaponType: "baguette magique", damages: 20 */)
+    let dwarf = Dwarf()
+    let colossus = Colossus()
     
+    var fightingCharacter = Character(name: "")
+    
+    
+    var chestChances = Int()
+    var newDamagesRandom = Int()
     // ⬇︎ Permet au programme d'aller chercher et d'attaquer l'escouade adverse en changeant l'index du tableau de Players. Elle est statique pour pouvoir l'utiliser dans la classe Game, dans la fonction "startRound": on lui ajoute 1 à chaque tour de boucle "for player in [players]" et lorsque la boucle est terminée (signifiant la fin du round 1) et que les deux joueurs ont chacun effectué leur action, indexCountHelper est remis à 0 pour être réutilisé au round suivant.
+    
     static var indexCountHelper = 0
+    
     
     // ⬇︎ Création des escouades de 3 personnages par le joueur. Dans la limite de 3, ajout des instances Character, choix du type de personnage puis d'un nom unique par l'utilisateur.
     func createMySquad() {
+        let playableCharacters = [Warrior(), Magus(), Dwarf(), Colossus(), Priest()]
         while squad.count < 3 {
-            let character = Character()
-            print("Choisis le personnage numero \(squad.count+1) parmi les suivants :"
-                + "\n1. Guerrier"
-                + "\n2. Mage"
-                + "\n3. Nain"
-                + "\n4. Colosse"
-                + "\n5. Prêtre")
+            print("Choisis le personnage numero \(squad.count+1) parmi les suivants :\n")
+            for characters in playableCharacters {
+                print("\(characters.description)")
+            }
             let userInput = readLine()
             let trimmedUserInput = userInput?.trimmingCharacters(in: .whitespaces)
+            // ⬇︎ faut-il ajouter un "else" au cas ou l'utilisateur ne renseigne pas une valeur trimmée ?
             if let choice = trimmedUserInput {
                 switch choice {
                     /* Chaque cas permet, dans l'ordre :
@@ -42,25 +54,20 @@ class Player {
                      • d'assigner une valeur à la variable "characterType" correspondant au type (druide, magicien, dragon...) de personnage choisi
                      */
                 case "1" :
-                    squad.append(character)
+                    squad.append(warrior)
                     chooseName(of: "Guerrier")
-                    character.characterType = "Guerrier"
                 case "2" :
-                    squad.append(character)
+                    squad.append(magus)
                     chooseName(of: "Mage")
-                    character.characterType = "Mage"
                 case "3" :
-                    squad.append(character)
+                    squad.append(dwarf)
                     chooseName(of: "Nain")
-                    character.characterType = "Nain"
                 case "4" :
-                    squad.append(character)
+                    squad.append(colossus)
                     chooseName(of: "Colosse")
-                    character.characterType = "Colosse"
                 case "5" :
-                    squad.append(character)
+                    squad.append(priest)
                     chooseName(of: "Prêtre")
-                    character.characterType = "Prêtre"
                 default: print("Merci de taper un chiffre entre 1 et 5 pour choisir le personnage correspondant")
                 }
             }
@@ -84,7 +91,7 @@ class Player {
         else { // FIXME: faire en sorte que ça déballe de manière safe + trimming
             Character.charactersNames.append(userInput!) // On ajoute le nom au tableau récapitulatif de tous les noms
             squad[squad.count-1].characterName = userInput!
-            print("Adjugé vendu ! Ton \(type) se nommera \(userInput!) !\n")
+            print("\nAdjugé vendu ! Ton \(type) se nommera \(userInput!) !\n\n")
         }
     }
     
@@ -97,23 +104,29 @@ class Player {
         }
         if let choice = readLine() {
             switch choice {
-            case "1" :
+            case "1" : // peut-être qu'utiliser "where" + condition après chaque "case" est mieux que ".indices.contains()"
                 if squad.indices.contains(0) {
+                    fightingCharacter = squad[0]
                     print("\nTu as choisi de jouer avec \(squad[0].characterName), ton \(squad[0].characterType).")
+                    chest()
                 } else {
                     print("\nChoisis un personnage qui est encore vivant !")
                     pickFighters()
                 }
             case "2" :
                 if squad.indices.contains(1) {
+                    fightingCharacter = squad[1]
                     print("\nTu as choisi de jouer avec \(squad[1].characterName), ton \(squad[1].characterType).")
+                    chest()
                 } else {
                     print("\nChoisis un personnage qui est encore vivant !")
                     pickFighters()
                 }
             case "3" :
                 if squad.indices.contains(2) {
+                    fightingCharacter = squad[2]
                     print("\nTu as choisi de jouer avec \(squad[2].characterName), ton \(squad[2].characterType).")
+                    chest()
                 } else {
                     print("\nChoisis un personnage qui est encore vivant !")
                     pickFighters()
@@ -124,6 +137,49 @@ class Player {
             }
         }
         
+    }
+    
+    func chest() {
+        newDamagesRandom = Int.random(in: 10..<80)
+        chestChances = Int.random(in: 1..<10)
+        if chestChances <= 5 {
+            print("\nOh... Les elfes vous ont fait parvenir un coffre ! Voyons voir ce qu'il y a dedans...")
+            if newDamagesRandom <= 25 {
+            print("\n Il contient une dague elfique éthérée. Celle-ci inflige \(newDamagesRandom) points de dégâts !")
+                equipChestWeapon()
+            } else if newDamagesRandom > 25 && newDamagesRandom <= 50 {
+                print("\n Il contient une épée elfique éthérée. Celle-ci inflige \(newDamagesRandom) points de dégâts !")
+                equipChestWeapon()
+            } else if newDamagesRandom > 50 && newDamagesRandom <= 70 {
+                print("\n Il contient un arc elfique éthéré. Celui-ci inflige \(newDamagesRandom) points de dégâts !")
+                equipChestWeapon()
+            } else {
+                print("\n Il contient un bâton de sorcier elfique éthéré. Celui-ci inflige \(newDamagesRandom) points de dégâts !")
+                equipChestWeapon()
+            }
+        } else {
+            fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
+        }
+    }
+    
+    func equipChestWeapon() {
+        print("\nVeux-tu t'en équiper pour ce tour ?\n\n"
+        + "1. Oui\n"
+        + "2. Non")
+        let userInput = readLine()
+        let trimmedUserInput = userInput?.trimmingCharacters(in: .whitespaces)
+        if let choice = trimmedUserInput {
+            switch choice {
+            case "1" :
+                fightingCharacter.weapon.damages = newDamagesRandom
+                print("\nTrès bien, on la prend !")
+            case "2" :
+                fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
+                print("\nTrès bien, on leur retourne le cadeau !")
+            default :
+                print("Merci de saisir un chiffre correspondant à Oui ou Non.")
+            }
+        }
     }
     
     func chooseCharacterAction() {
@@ -139,6 +195,7 @@ class Player {
             case "2" :
                 if Player.indexCountHelper == 0 {
                     attackEnnemy(inTeam: 1)
+        // TODO: remplacer index de attackEnnemy par un tableau (player ou autre) ?
                 }
                 else {
                     attackEnnemy(inTeam: 0)
@@ -156,9 +213,9 @@ class Player {
     
     func heal(characterNumber: Int) {
         if squad.indices.contains(characterNumber) {
-            if squad[characterNumber].hp <= squad[characterNumber].maxHp - 25 { // Si les HP actuels du character ont un écart supérieur ou égal à 25 comparé à son maxHP, ajouter 25 HP.
-                squad[characterNumber].hp += 25
-                print("\(squad[characterNumber].characterName) récupère 25 points de vie ! \(squad[characterNumber].characterName) a désormais \(squad[characterNumber].hp) hp\n")
+            if squad[characterNumber].hp <= squad[characterNumber].maxHp - fightingCharacter.healSkill { // Si les HP actuels du character ont un écart supérieur ou égal au montant de la propriété HealSkill comparé à son maxHP, ajouter ce montant.
+                squad[characterNumber].hp += fightingCharacter.healSkill
+                print("\(squad[characterNumber].characterName) récupère \(fightingCharacter.healSkill) points de vie ! \(squad[characterNumber].characterName) a désormais \(squad[characterNumber].hp) hp\n")
             } else if squad[characterNumber].hp == squad[characterNumber].maxHp {
                 print("\nCe personnage a déjà le maximum de points de vie. Soigne un autre membre de ton escouade ou effectue une autre action.\n\n")
                 healAlly()
@@ -204,7 +261,7 @@ class Player {
     
     
     func attackEnnemy(inTeam teamIndex: Int) {
-        print("Quel ennemi veux-tu attaquer ?")
+        print("\n\nQuel ennemi veux-tu attaquer ?\n")
         for (index, character) in game.players[teamIndex].squad.enumerated() {
             print("\(index+1). Attaquer \(character.characterName) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
         }
@@ -217,7 +274,7 @@ class Player {
             case "2" : attack(characterNumber: 1, inTeam: teamIndex)
             case "3" : attack(characterNumber: 2, inTeam: teamIndex)
             case "0" : chooseCharacterAction()
-            default: print("Merci de saisir un chiffre correspondant à l'action souhaitée")
+            default: print("Merci de saisir un chiffre correspondant à l'action souhaitée\n")
             attackEnnemy(inTeam: teamIndex)
             }
             
@@ -225,17 +282,20 @@ class Player {
     }
     
     func attack(characterNumber: Int, inTeam teamIndex: Int) {
+        
         if game.players[teamIndex].squad.indices.contains(characterNumber) {
-            game.players[teamIndex].squad[characterNumber].hp -= 25
-            print("\nTon héros frappe \(game.players[teamIndex].squad[characterNumber].characterName) pour 25 de dégâts !")
+            game.players[teamIndex].squad[characterNumber].hp -= fightingCharacter.weapon.damages
+            print("\nTon héros frappe \(game.players[teamIndex].squad[characterNumber].characterName) pour \(fightingCharacter.weapon.damages) de dégâts !\n")
             if game.players[teamIndex].squad[characterNumber].hp > 0 {
-                print("\(game.players[teamIndex].squad[characterNumber].characterName) a désormais \(game.players[teamIndex].squad[characterNumber].hp)/\(game.players[teamIndex].squad[characterNumber].maxHp) hp\n")
+                print("\(game.players[teamIndex].squad[characterNumber].characterName) a désormais \(game.players[teamIndex].squad[characterNumber].hp)/\(game.players[teamIndex].squad[characterNumber].maxHp) hp\n\n")
             } else {
-                print("\(game.players[teamIndex].squad[characterNumber].characterName) n'a plus aucun point de vie. \(game.players[teamIndex].squad[characterNumber].characterName) est retiré de l'escouade !")
+                print("\(game.players[teamIndex].squad[characterNumber].characterName) n'a plus aucun point de vie. \(game.players[teamIndex].squad[characterNumber].characterName) est retiré de l'escouade !\n\n\n")
+                game.players[teamIndex].squad[characterNumber].hp = 0
                 removeDeads(inTeam: teamIndex, characterNumber: characterNumber)
             }
+            fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
         } else {
-            print("Les fantômes ne peuvent pas tenir une arme !")
+            print("\nLes fantômes ne peuvent pas tenir une arme !\n")
             attackEnnemy(inTeam: teamIndex)
         }
     }

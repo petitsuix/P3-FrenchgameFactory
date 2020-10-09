@@ -26,7 +26,7 @@ class Game {
         let player = Player()
         players.append(player)
         
-        print("Joueur \(players.count) ! A toi de choisir un nom d'équipe :")
+        print("\n\nJoueur \(players.count) ! A toi de choisir un nom d'équipe :")
         players[players.count-1].name = readLine()!
         print("\nTrès bien équipe \(players[players.count-1].name), forme ton escouade de 3 personnages !\n")
     }
@@ -55,6 +55,7 @@ class Game {
     private func startRound() {
         // ⬇︎ Variable permettant d'appeler les index au tour par tour en fonction du nombre de joueurs
         while players[0].squad.count != 0 && players[1].squad.count != 0 {
+            print("\n\n------------- ROUND \(Game.roundCount+1) -------------\n\n\n")
         for player in players {
             if players[0].squad.count != 0 && players[1].squad.count != 0 {
             player.pickFighters()
@@ -113,8 +114,7 @@ class Game {
             for character in players[teamIndex].deadSquadMembers {
                 print("\n • '\(character.characterName)'"
                     + "\n- Classe: \(character.characterType)"
-                    + "\n- Points de vie: \(character.hp)"
-                    + "\n- Total de dégats: \(character.totalDamages)\n\n")
+                    + "\n- Points de vie: \(character.hp)")
             }
             
         } else {
@@ -122,16 +122,13 @@ class Game {
             for character in players[teamIndex].squad {
                 print("\n • \(character.characterName):"
                     + "\n- Classe: \(character.characterType)"
-                    + "\n- Points de vie: \(character.hp)"
-                    + "\n- Dommages totaux: \(character.totalDamages)\n\n")
+                    + "\n- Points de vie: \(character.hp)\n")
             }
-            
             print("-- Personnages morts --")
             for character in players[teamIndex].deadSquadMembers {
                 print("\n • \(character.characterName):"
                     + "\n- Classe: \(character.characterType)"
-                    + "\n- Points de vie: \(character.hp)"
-                    + "\n- Dommages totaux: \(character.totalDamages)\n\n")
+                    + "\n- Points de vie: \(character.hp)")
             }
             
         }
