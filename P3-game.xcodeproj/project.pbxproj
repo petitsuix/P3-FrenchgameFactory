@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		97A4F859251E031E007908C3 /* collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A4F858251E031D007908C3 /* collection.swift */; };
 		97A8CFB924EAE628002444D3 /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CFB824EAE628002444D3 /* Warrior.swift */; };
 		97A8CFBB24EAE635002444D3 /* Magus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CFBA24EAE635002444D3 /* Magus.swift */; };
 		97A8CFBD24EAE640002444D3 /* Dwarf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CFBC24EAE640002444D3 /* Dwarf.swift */; };
 		97A8CFBF24EAE649002444D3 /* Colossus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CFBE24EAE649002444D3 /* Colossus.swift */; };
 		97A8CFC124EAE65E002444D3 /* Priest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CFC024EAE65E002444D3 /* Priest.swift */; };
-		97DD286B252F5395003EB9E5 /* ChestWeapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DD286A252F5395003EB9E5 /* ChestWeapon.swift */; };
 		EF8D003424CED1F100FF4759 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003324CED1F100FF4759 /* main.swift */; };
 		EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003A24CED2EF00FF4759 /* Game.swift */; };
 		EF8D003D24CED44A00FF4759 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8D003C24CED44A00FF4759 /* Player.swift */; };
@@ -34,13 +32,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		97A4F858251E031D007908C3 /* collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = collection.swift; sourceTree = "<group>"; };
 		97A8CFB824EAE628002444D3 /* Warrior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
 		97A8CFBA24EAE635002444D3 /* Magus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magus.swift; sourceTree = "<group>"; };
 		97A8CFBC24EAE640002444D3 /* Dwarf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dwarf.swift; sourceTree = "<group>"; };
 		97A8CFBE24EAE649002444D3 /* Colossus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colossus.swift; sourceTree = "<group>"; };
 		97A8CFC024EAE65E002444D3 /* Priest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priest.swift; sourceTree = "<group>"; };
-		97DD286A252F5395003EB9E5 /* ChestWeapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestWeapon.swift; sourceTree = "<group>"; };
 		EF8D003024CED1F100FF4759 /* P3-game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "P3-game"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8D003324CED1F100FF4759 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		EF8D003A24CED2EF00FF4759 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -89,8 +85,6 @@
 				97A8CFBE24EAE649002444D3 /* Colossus.swift */,
 				97A8CFC024EAE65E002444D3 /* Priest.swift */,
 				EF8D004024CED48C00FF4759 /* Weapon.swift */,
-				97DD286A252F5395003EB9E5 /* ChestWeapon.swift */,
-				97A4F858251E031D007908C3 /* collection.swift */,
 			);
 			path = "P3-game";
 			sourceTree = "<group>";
@@ -154,13 +148,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF8D004124CED48C00FF4759 /* Weapon.swift in Sources */,
-				97DD286B252F5395003EB9E5 /* ChestWeapon.swift in Sources */,
 				97A8CFB924EAE628002444D3 /* Warrior.swift in Sources */,
 				EF8D003424CED1F100FF4759 /* main.swift in Sources */,
 				EF8D003D24CED44A00FF4759 /* Player.swift in Sources */,
 				97A8CFBD24EAE640002444D3 /* Dwarf.swift in Sources */,
 				EF8D003B24CED2EF00FF4759 /* Game.swift in Sources */,
-				97A4F859251E031E007908C3 /* collection.swift in Sources */,
 				97A8CFBF24EAE649002444D3 /* Colossus.swift in Sources */,
 				97A8CFC124EAE65E002444D3 /* Priest.swift in Sources */,
 				EF8D003F24CED46D00FF4759 /* Character.swift in Sources */,

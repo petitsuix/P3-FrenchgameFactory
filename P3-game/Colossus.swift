@@ -15,10 +15,10 @@ class Colossus: Character {
     hp = 140
     maxHp = 140
     healSkill = 15
-    weapon = Weapon(weaponType: "tronc d'arbre", damages: 40)
+    weapon = Weapon(weaponType: "tronc d'arbre    🌲", damages: 40)
     defaultCharacterDamages = 40
-    description = "4. Colosse ▸ pdv: \(maxHp), arme: \(weapon.weaponType) (\(weapon.damages) de dégâts), soins: \(healSkill)"
-    characterType = "colosse"
+    description = "4. Colosse  🏋🏻 ▸ pdv: \(maxHp) | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+    characterType = "colosse 🏋🏻"
     }
     
 }

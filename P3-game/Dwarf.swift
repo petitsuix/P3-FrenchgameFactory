@@ -15,10 +15,10 @@ class Dwarf: Character {
     hp = 100
     maxHp = 100
     healSkill = 30
-    weapon = Weapon(weaponType: "hâche", damages: 40)
+    weapon = Weapon(weaponType: "hâche rutilante  🪓", damages: 40)
     defaultCharacterDamages = 40
-    description = "3. Nain ▸ pdv: \(maxHp), arme: \(weapon.weaponType) (\(weapon.damages) de dégâts), soins: \(healSkill)"
-    characterType = "nain"
+    description = "3. Nain     👨🏿‍🚒 ▸ pdv: \(maxHp) | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+    characterType = "nain 👨🏿‍🚒"
     }
     
 }
