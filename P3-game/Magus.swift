@@ -15,8 +15,8 @@ class Magus: Character {
     hp = 70
     maxHp = 70
     healSkill = 10
-    defaultCharacterDamages = 150
-    weapon = Weapon(weaponType: "baguette astrale 🎋", damages: 150)
+    defaultCharacterDamages = 65
+    weapon = Weapon(weaponType: "baguette astrale 🦯", damages: 65)
     description = "2. Mage     🧙🏼‍♂️ ▸ pdv: \(maxHp)  | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
     characterType = "mage 🧙🏼‍♂️"
     }

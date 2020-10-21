@@ -16,6 +16,8 @@ class Game {
     // ⬇︎ Tableau contenant des instances de la classe Player, correspondants au nombre de joueurs en jeu
     var players: [Player] = []
     
+    var allPlayerNames: [String] = []
+    
     // ⬇︎ Compteur de rounds
     static var roundCount = 0
     
@@ -35,16 +37,31 @@ class Game {
     private func createPlayer() {
         // Ajout d'une instance de Player au tableau players
         let player = Player()
-        players.append(player)
         
-        print("\n\n👑 Joueur \(players.count) 👑 A toi de choisir un nom d'équipe :")
-        players[players.count-1].name = readLine()!
+        
+        print("\n\n👑 Joueur \(players.count+1) 👑 A toi de choisir un nom d'équipe :")
+        
+        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Si userInput est égale à readLine (qu'on trimme au passage), et si elle n'est pas vide :
+            if allPlayerNames.contains(userInput) { // On vérifie dans le tableau récapitulatif de tous les noms si ce dernier existe déjà
+                print("Ce nom est déjà pris.")
+                createPlayer()
+            } else {
+                players.append(player)
+                player.name = userInput
+                allPlayerNames.append(userInput)
+                print("Très bien équipe \(player.name).")
+            }
+        } else {
+            print("Choisis un nom valide")
+            createPlayer()
+        }
     }
     
     
+    // FIXME: Cette fonction est-elle à la bonne place ? Eventuellement la déplacer dans la classe Player ? Comment faire sachant que le tableau players se trouve ici dans Game ?
     // ⬇︎ Pour chaque joueur, appelle la fonction de création d'escouade
-    private func createTeams() {
-        print("\nTrès bien équipe \(players[players.count-1].name), forme ton escouade de 3 personnages 🧍🏽‍♂️\n")
+    func createTeams() {
+        print("\n Forme ton escouade de 3 personnages 🧍🏽‍♂️\n")
         for player in players {
             player.createMySquad()
         }

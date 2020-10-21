@@ -15,7 +15,7 @@ class Priest: Character {
     hp = 90
     maxHp = 90
     healSkill = 65
-    weapon = Weapon(weaponType: "bâton des sages  🦯", damages: 20)
+    weapon = Weapon(weaponType: "bâton des sages  🎋", damages: 20)
     defaultCharacterDamages = 20
     description = "5. Prêtre   🧖🏼‍♂️ ▸ pdv: \(maxHp)  | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
     characterType = "prêtre 🧖🏼‍♂️"

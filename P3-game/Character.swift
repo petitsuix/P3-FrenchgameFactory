@@ -10,6 +10,7 @@ import Foundation
 
 class Character {
     
+    var chestWeapons: [Weapon] = []
     
     var description = ""
     

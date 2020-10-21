@@ -8,13 +8,14 @@
 
 import Foundation
 
-class Weapon {
-    var weaponType: String
+struct Weapon {
+    let weaponType: String
+    // FIXME : changer var pour let car les dommages ne changeront pas
     var damages: Int
 
-    init(weaponType: String, damages: Int) {
-        self.damages = damages
-        self.weaponType = weaponType
-    }
+//    init(weaponType: String, damages: Int) {
+//        self.damages = damages
+//        self.weaponType = weaponType
+//    }
 
 }
