@@ -9,7 +9,7 @@
 import Foundation
 
 struct Weapon {
-    let weaponType: String
+    var weaponType: String
     // FIXME : changer var pour let car les dommages ne changeront pas
     var damages: Int
 

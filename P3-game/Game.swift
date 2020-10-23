@@ -21,7 +21,6 @@ class Game {
     // ⬇︎ Compteur de rounds
     static var roundCount = 0
     
-    
     // ⬇︎ Permet d'appeler les fonctions d'initialisation du jeu : message de bienvenue, création des profils joueurs et création de leur escouade respective. Cette fonction appelle également le commencement de la phase de jeu avec startPlaying.
     func startGame() {
         print("🛡 Bienvenue dans le jeu de combat le plus féroce de l'histoire ! 🛡\n")
@@ -32,7 +31,6 @@ class Game {
         startPlaying()
         
     }
-    
     // ⬇︎ Fonction permettant de créer un joueur et de lui faire choisir un nom, puis d'enchainer sur la création de son escouade de 3 characters
     private func createPlayer() {
         // Ajout d'une instance de Player au tableau players
@@ -61,7 +59,7 @@ class Game {
     // FIXME: Cette fonction est-elle à la bonne place ? Eventuellement la déplacer dans la classe Player ? Comment faire sachant que le tableau players se trouve ici dans Game ?
     // ⬇︎ Pour chaque joueur, appelle la fonction de création d'escouade
     func createTeams() {
-        print("\n Forme ton escouade de 3 personnages 🧍🏽‍♂️\n")
+        print("\nForme ton escouade de 3 personnages 🧍🏽‍♂️\n")
         for player in players {
             player.createMySquad()
         }

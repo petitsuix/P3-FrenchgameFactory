@@ -12,6 +12,8 @@ class Character {
     
     var chestWeapons: [Weapon] = []
     
+    var chestWeapon = Weapon(weaponType: "", damages: 0)
+    
     var description = ""
     
     // ⬇︎ Constante non déclarée pour assigner un nom à chaque character
@@ -38,6 +40,8 @@ class Character {
     
     // ⬇︎ Arme du personnage
     var weapon = Weapon(weaponType: "", damages: 0)
+    
+    var defaultWeaponType = String()
     
     // ⬇︎ Dommages par défaut du character
     var defaultCharacterDamages = Int()

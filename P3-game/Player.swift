@@ -86,7 +86,7 @@ class Player {
     }
     
     // ⬇︎ Fonction permettant à l'utilisateur de choisir le personnage avec lequel il souhaite effectuer une action pour le round en cours
-    private func pickFighters() {
+    func pickFighters() {
         
         print("🎲 Équipe \(name), saisis un chiffre correspondant au personnage avec lequel tu souhaites combattre pendant le round \(Game.roundCount+1) :\n")
         // ⬇︎ Affiche une liste des personnages vivants et disponibles dans l'escouade.
@@ -96,11 +96,11 @@ class Player {
         if let choice = readLine() {
             switch choice {
             case "1" : // peut-être qu'utiliser "where" + condition après chaque "case" est mieux que ".indices.contains()"
-                choose(characterNumber: 0)
+                choosenFighter(characterNumber: 0)
             case "2" :
-                choose(characterNumber: 1)
+                choosenFighter(characterNumber: 1)
             case "3" :
-                choose(characterNumber: 2)
+                choosenFighter(characterNumber: 2)
             default:
                 print("\n🚣‍♀️ Ce héros n'existe pas. Tape un chiffre correspondant puis appuie sur 'Entrée'.")
                 pickFighters()
@@ -109,10 +109,10 @@ class Player {
         
     }
     
-    private func choose(characterNumber: Int) {
+    private func choosenFighter(characterNumber: Int) {
         if squad.indices.contains(characterNumber) { // ‣ Permet de sécuriser la saisie, dans le cas ou l'utilisateur souhaiterait appeler un personnage déjà éliminé.
             fightingCharacter = squad[characterNumber] // ‣ On mémorise quel personnage va au combat pour ce round
-            print("\nTu as choisi de jouer avec \(squad[characterNumber].name), ton \(squad[characterNumber].characterType).")
+            print("\nTu as choisi de jouer avec \(fightingCharacter.name), ton \(fightingCharacter.characterType).")
             chest() // ‣ évènement aléatoire
         } else {
             print("\n🚣‍♀️ Choisis un personnage qui est encore vivant !")
@@ -120,46 +120,58 @@ class Player {
         }
     }
     
-    // ⬇︎ Fait apparaître un coffre, juste après que le joueur ait choisi son combattant. 5 fois sur 10. Le coffre contient des armes elfiques de différents types en fonction des dommages, qui varieront entre 10 et 80. Une arme elfique du même type pourra donc être plus ou moins puissante.
     private func chest() {
-        newDamagesRandom = Int.random(in: 10...80) // ‣ assigne à la propriété une nouvelle valeur aléatoire à chaque appel de chest()
-        chestChances = Int.random(in: 1...10) // ‣ idem
-        if chestChances <= 5 {
-            print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
-            if newDamagesRandom <= 25 {
-                print("\nIl contient une dague elfique éthérée 🗡 Celle-ci inflige \(newDamagesRandom) points de dégâts !")
-                equipChestWeapon() // ‣ Demande au joueur s'il souhaite équiper l'arme trouvée
-            } else if newDamagesRandom > 25 && newDamagesRandom <= 50 {
-                print("\nIl contient une épée elfique éthérée 🗡 Celle-ci inflige \(newDamagesRandom) points de dégâts !")
-                equipChestWeapon()
-            } else if newDamagesRandom > 50 && newDamagesRandom <= 70 {
-                print("\nIl contient un arc elfique éthéré 🏹 Celui-ci inflige \(newDamagesRandom) points de dégâts !")
-                equipChestWeapon()
-            } else {
-                print("\nIl contient un bâton de sorcier elfique éthéré 🦯✨ Celui-ci inflige \(newDamagesRandom) points de dégâts !")
-                equipChestWeapon()
+           chestChances = Int.random(in: 1...10) // ‣ chances de voir un coffre apparaître
+           if chestChances <= 5 {
+            fightingCharacter.chestWeapon = fightingCharacter.chestWeapons.randomElement()!
+               print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
+            print("\nIl contient une arme : ✨ \(fightingCharacter.chestWeapon.weaponType) ✨ Cette arme inflige \(fightingCharacter.chestWeapon.damages) points de dégâts !")
+            keepChestWeaponOrNot(chestWeapon: fightingCharacter.chestWeapon)// ‣ Demande au joueur s'il souhaite garder l'arme trouvée
             }
-        } else {
-            fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
-        }
-    }
+       }
+    
+//    // ⬇︎ Fait apparaître un coffre, juste après que le joueur ait choisi son combattant. 5 fois sur 10. Le coffre contient des armes elfiques de différents types en fonction des dommages, qui varieront entre 10 et 80. Une arme elfique du même type pourra donc être plus ou moins puissante.
+//    private func chest() {
+//        newDamagesRandom = Int.random(in: 10...80) // ‣ assigne à la propriété une nouvelle valeur aléatoire à chaque appel de chest()
+//        chestChances = Int.random(in: 1...10) // ‣ chances de voir un coffre apparaître
+//        if chestChances <= 5 {
+//            print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
+//            if newDamagesRandom <= 25 {
+//                print("\nIl contient une dague elfique éthérée 🗡 Celle-ci inflige \(newDamagesRandom) points de dégâts !")
+//                keepChestWeaponOrNot() // ‣ Demande au joueur s'il souhaite garder l'arme trouvée
+//            } else if newDamagesRandom > 25 && newDamagesRandom <= 50 {
+//                print("\nIl contient une épée elfique éthérée 🗡 Celle-ci inflige \(newDamagesRandom) points de dégâts !")
+//                keepChestWeaponOrNot()
+//            } else if newDamagesRandom > 50 && newDamagesRandom <= 70 {
+//                print("\nIl contient un arc elfique éthéré 🏹 Celui-ci inflige \(newDamagesRandom) points de dégâts !")
+//                keepChestWeaponOrNot()
+//            } else {
+//                print("\nIl contient un bâton de sorcier elfique éthéré 🦯✨ Celui-ci inflige \(newDamagesRandom) points de dégâts !")
+//                keepChestWeaponOrNot()
+//            }
+//        } else {
+//            fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
+//        }
+//    }
     
     // ⬇︎ Méthode de confirmation de l'arme elfique
-    private func equipChestWeapon() {
+    private func keepChestWeaponOrNot(chestWeapon: Weapon) {
         print("\nVeux-tu t'en équiper pour ce tour ?\n\n"
             + "1. Oui 🙋\n"
             + "2. Non 🙅")
         if let choice = readLine() {
             switch choice {
-            case "1" :
-                fightingCharacter.weapon.damages = newDamagesRandom // ‣ Oui: Les dommages actuels sont remplacés
+            case "1" : // utiliser override ??
+                // ‣ Oui: Les dommages actuels sont remplacés
+                fightingCharacter.weapon = chestWeapon
                 print("\nTrès bien, on la prend ! 🎒\n")
             case "2" :
                 fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages // ‣ Non: On réattribue les dommages par défaut
+                fightingCharacter.weapon.weaponType = fightingCharacter.defaultWeaponType
                 print("\nTrès bien, on leur retourne le cadeau ! 💨")
             default :
                 print("🚣‍♂️ Merci de saisir un chiffre correspondant à Oui ou Non.")
-                equipChestWeapon()
+                keepChestWeaponOrNot(chestWeapon: chestWeapon)
             }
         }
     }
@@ -173,7 +185,7 @@ class Player {
             switch choice {
             case "1" :
                 healAlly()
-            //  let test = players[indexCountHelper]
+            //
             case "2" :
                 if Player.indexCountHelper == 0 {
                     attackEnnemy(inTeam: 1)
@@ -245,7 +257,7 @@ class Player {
             print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
         }
         print("0. Effectuer une autre action 🙇🏻‍♂️")
-        
+
         if let choice = readLine() {
             switch choice {
             case "1" : attack(characterNumber: 0, inTeam: teamIndex) // "Attaquer le character numéro: 0, dans l'équipe: 0 ou 1"
@@ -255,19 +267,52 @@ class Player {
             default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
             attackEnnemy(inTeam: teamIndex)
             }
-            
+
         }
     }
-    // ⬇︎ Comme pour la méthode heal, la propriété characterNumber permet d'aller chercher le personnage attaqué. La propriété inTeam, quant à elle, défini dans quelle équipe il faut aller le trouver.
+  
+//    private func attackEnnemy(player: Player) {
+//        print("\n\nQuel ennemi veux-tu attaquer ? ⚔️\n")
+//        for (index, character) in player.squad.enumerated() {
+//            print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
+//        }
+//        print("0. Effectuer une autre action 🙇🏻‍♂️")
+//
+//        if let choice = readLine() {
+//            switch choice {
+//            case "1" : attack(player: player, characterNumber: 0) // "Attaquer le character numéro: 0, dans l'équipe: 0 ou 1"
+//            case "2" : attack(player: player, characterNumber: 1)
+//            case "3" : attack(player: player, characterNumber: 2)
+//            case "0" : chooseCharacterAction() // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
+//            default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
+//            attackEnnemy(player: player)
+//            }
+//
+//        }
+//    }
     
-    func attack(ennemyCharacter: Character) {}
+    func attackBIS(ennemyCharacter: Character) {}
     
-    func attackEnnemy(player: Player, characterNumber: Int) {}
-    
-    private func attack(characterNumber: Int, inTeam teamIndex: Int) {
+    func attackTER(player: Player, characterNumber: Int) {}
         
+        
+//        if player.squad.indices.contains(characterNumber) {
+//            player.squad[characterNumber].hp -= fightingCharacter.weapon.damages
+//            print("\nTon héros frappe \(player.squad[characterNumber].name) pour \(fightingCharacter.weapon.damages) de dégâts ! 💔\n")
+//        } else {
+//            print("\n👻 Les fantômes ne peuvent pas tenir une arme !\n")
+//            attackEnnemy(player: player)
+//        }
+//    }
+    
+    
+    
+    // ⬇︎ Comme pour la méthode heal, la propriété characterNumber permet d'aller chercher le personnage attaqué. La propriété inTeam, quant à elle, défini dans quelle équipe il faut aller le trouver.
+
+    private func attack(characterNumber: Int, inTeam teamIndex: Int) {
+
         let target = game.players[teamIndex].squad[characterNumber]
-        // FIXME: ici, on appelle l'instance game disponible dans le fichier "main"... étrange (mais avec une certaine logique car on souhaite aller chercher des informations au sujet des joueurs de la partie actuelle, donc d'une instance de Game)
+
         if game.players[teamIndex].squad.indices.contains(characterNumber) {
             target.hp -= fightingCharacter.weapon.damages
             print("\nTon héros frappe \(target.name) pour \(fightingCharacter.weapon.damages) de dégâts ! 💔\n")
@@ -279,14 +324,14 @@ class Player {
                 greatReaper(inTeam: teamIndex, characterNumber: characterNumber)
             }
             fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
-            
+
         } else {
             print("\n👻 Les fantômes ne peuvent pas tenir une arme !\n")
             attackEnnemy(inTeam: teamIndex)
         }
     }
-    
-    
+
+
     // ⬇︎ La grande faucheuse retire un personnage sans PdV du tableau des personnages (squad) et ajoute ce dernier au tableau des héros morts (deadSquadMembers).
     private func greatReaper(inTeam teamIndex: Int, characterNumber: Int) {
         game.players[teamIndex].deadSquadMembers.append(game.players[teamIndex].squad[characterNumber])
