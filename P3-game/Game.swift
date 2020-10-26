@@ -74,13 +74,16 @@ class Game {
             print("\n\n⚔️【 ROUND \(Game.roundCount+1) 】⚔️\n\n\n")
             for player in players {
                 if players[0].squad.count == 0 || players[1].squad.count == 0 {
-                    // ⬆︎ On revérifie si les conditions sont toujours vraies pour ne pas parcourir l'ensemble de la boucle dans le cas ou le joueur 1 gagne en premier (sinon le joueur 1 gagne, mais le programme continue la boucle, et le joueur 2 peut encore jouer son tour à ce round).
+                    // ⬆︎ On revérifie si les conditions sont toujours vraies pour ne pas parcourir l'ensemble de la boucle dans le cas ou le joueur 1 gagne en premier (sinon le joueur 1 gagne, mais le programme continue la boucle, et le joueur 2 peut encore jouer son tour à ce round bien qu'il n'ait plus de personnages).
                     endOfGame()
                 } else {
+                    
+                    let opponent = players.filter { opponent in
+                        player.name != opponent.name
+                    }
                     player.pickFighters()
-                    player.chooseCharacterAction()
+                    player.chooseCharacterAction(characters: opponent[0].squad)
                 }
-                
                 Player.indexCountHelper += 1
             }
             // ⬇︎ Fin du round, la valeur de indexCountHelper est remise à zéro et le compteur de round prend +1.

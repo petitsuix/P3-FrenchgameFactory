@@ -87,11 +87,11 @@ class Player {
     
     // ⬇︎ Fonction permettant à l'utilisateur de choisir le personnage avec lequel il souhaite effectuer une action pour le round en cours
     func pickFighters() {
-        
+        removeDeadPlayers()
         print("🎲 Équipe \(name), saisis un chiffre correspondant au personnage avec lequel tu souhaites combattre pendant le round \(Game.roundCount+1) :\n")
         // ⬇︎ Affiche une liste des personnages vivants et disponibles dans l'escouade.
         for (index, character) in squad.enumerated() {
-            print("\(index+1). \(character.name) le \(character.characterType)\n")
+            print("\(index+1). \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
         }
         if let choice = readLine() {
             switch choice {
@@ -112,7 +112,7 @@ class Player {
     private func choosenFighter(characterNumber: Int) {
         if squad.indices.contains(characterNumber) { // ‣ Permet de sécuriser la saisie, dans le cas ou l'utilisateur souhaiterait appeler un personnage déjà éliminé.
             fightingCharacter = squad[characterNumber] // ‣ On mémorise quel personnage va au combat pour ce round
-            print("\nTu as choisi de jouer avec \(fightingCharacter.name), ton \(fightingCharacter.characterType).")
+            print("\nTu as choisi de jouer avec \(fightingCharacter.name), ton \(fightingCharacter.characterType)")
             chest() // ‣ évènement aléatoire
         } else {
             print("\n🚣‍♀️ Choisis un personnage qui est encore vivant !")
@@ -176,7 +176,7 @@ class Player {
         }
     }
     
-    func chooseCharacterAction() {
+    func chooseCharacterAction(characters: [Character]) {
         
         print("🔔 Que veux-tu faire ?\n"
             + "\n1. Soigner un allié ⛑"
@@ -184,24 +184,24 @@ class Player {
         if let choice = readLine() {
             switch choice {
             case "1" :
-                healAlly()
+                healAlly(characters: characters)
             //
             case "2" :
                 if Player.indexCountHelper == 0 {
-                    attackEnnemy(inTeam: 1)
+                    attackEnnemy(characters: characters)
                     // TODO: remplacer index de attackEnnemy par un tableau (player ou autre) ?
                 }
                 else {
-                    attackEnnemy(inTeam: 0)
+                    attackEnnemy(characters: characters)
                 }
                 
             default: print("🚣‍♀️ Merci de taper un chiffre correspondant à l'une des deux options.")
-            chooseCharacterAction()
+            chooseCharacterAction(characters: characters)
             }
         }
     }
     // FIXME: Pourquoi ne pas intégrer la fonction "heal" décrite plus bas à la fonction healAlly ? Idem pour les fonction relatives à attack.
-    private func healAlly() {
+    private func healAlly(characters: [Character]) {
         
         print("Quel allié veux-tu soigner ? 🏥\n")
         for (index, character) in squad.enumerated() {
@@ -212,23 +212,23 @@ class Player {
         if let choice = readLine() {
             switch choice {
             case "1" :
-                heal(characterNumber: 0)
+                heal(characterNumber: 0, characters: self.squad)
             case "2" :
-                heal(characterNumber: 1)
+                heal(characterNumber: 1, characters: self.squad)
             case "3" :
-                heal(characterNumber: 2)
+                heal(characterNumber: 2, characters: self.squad)
             case "0" :
-                chooseCharacterAction() // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
+                chooseCharacterAction(characters: characters) // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
                 
             default :
                 print("\n🚣‍♂️ Merci de saisir un chiffre correspondant à l'un des personnages de ton escouade, ou taper '0' puis 'Entrée' pour effectuer une autre action.\n\n")
-                healAlly()
+                healAlly(characters: characters)
             }
             
         }
     }
     
-    private func heal(characterNumber: Int) { // ‣ Lire la fonction avec paramètre comme suit : "Soigner caractère numéro: 0, 1 ou 2"
+    private func heal(characterNumber: Int, characters: [Character]) { // ‣ Lire la fonction avec paramètre comme suit : "Soigner caractère numéro: 0, 1 ou 2"
         let target = squad[characterNumber]
         if squad.indices.contains(characterNumber) {
             if target.hp <= target.maxHp - fightingCharacter.healSkill { // ‣ Si les HP actuels du character ciblé par le soin ont un écart supérieur ou égal au montant de la propriété HealSkill, comparé à son maxHP, ajouter ce montant en entier.
@@ -236,7 +236,7 @@ class Player {
                 print("\(target.name) récupère \(fightingCharacter.healSkill) points de vie ♥️ \(target.name) a désormais \(target.hp) hp\n")
             } else if target.hp == target.maxHp { // ‣ Si les hp actuels du character sont déjà au maximum :
                 print("\n🚣‍♂️ Ce personnage a déjà le maximum de points de vie. Soigne un autre membre de ton escouade ou effectue une autre action.\n\n")
-                healAlly()
+                healAlly(characters: characters)
             } else { // ‣ Si les HP actuels du character ont un écart inférieur au montant de la compétence healskill, ajouter seulement la différence pour atteindre le maxHp.
                 print("\(target.name) récupère \(target.maxHp - target.hp) points de vie ♥️")
                 target.hp += target.maxHp - target.hp
@@ -244,28 +244,28 @@ class Player {
             }
         } else {
             print("🚣‍♂️ Bien essayé ! Séléctionne un héros vivant.")
-            healAlly()
+            healAlly(characters: characters)
         }
         
     }
     
     
     
-    private func attackEnnemy(inTeam teamIndex: Int) {
+    private func attackEnnemy(characters: [Character]) {
         print("\n\nQuel ennemi veux-tu attaquer ? ⚔️\n")
-        for (index, character) in game.players[teamIndex].squad.enumerated() {
+        for (index, character) in characters.enumerated() {
             print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
         }
         print("0. Effectuer une autre action 🙇🏻‍♂️")
 
         if let choice = readLine() {
             switch choice {
-            case "1" : attack(characterNumber: 0, inTeam: teamIndex) // "Attaquer le character numéro: 0, dans l'équipe: 0 ou 1"
-            case "2" : attack(characterNumber: 1, inTeam: teamIndex)
-            case "3" : attack(characterNumber: 2, inTeam: teamIndex)
-            case "0" : chooseCharacterAction() // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
+            case "1" : attack(character: characters[0]) // "Attaquer le character numéro: 0, dans l'équipe: 0 ou 1"
+            case "2" : attack(character: characters[1])
+            case "3" : attack(character: characters[2])
+            case "0" : chooseCharacterAction(characters: characters) // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
             default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
-            attackEnnemy(inTeam: teamIndex)
+            attackEnnemy(characters: characters)
             }
 
         }
@@ -291,9 +291,9 @@ class Player {
 //        }
 //    }
     
-    func attackBIS(ennemyCharacter: Character) {}
-    
-    func attackTER(player: Player, characterNumber: Int) {}
+//    func attackBIS(ennemyCharacter: Character) {}
+//
+//    func attackTER(player: Player, characterNumber: Int) {}
         
         
 //        if player.squad.indices.contains(characterNumber) {
@@ -309,33 +309,29 @@ class Player {
     
     // ⬇︎ Comme pour la méthode heal, la propriété characterNumber permet d'aller chercher le personnage attaqué. La propriété inTeam, quant à elle, défini dans quelle équipe il faut aller le trouver.
 
-    private func attack(characterNumber: Int, inTeam teamIndex: Int) {
+    private func attack(character: Character) {
 
-        let target = game.players[teamIndex].squad[characterNumber]
-
-        if game.players[teamIndex].squad.indices.contains(characterNumber) {
-            target.hp -= fightingCharacter.weapon.damages
-            print("\nTon héros frappe \(target.name) pour \(fightingCharacter.weapon.damages) de dégâts ! 💔\n")
-            if target.hp > 0 {
-                print("\(target.name) a désormais \(target.hp)/\(target.maxHp) hp\n\n")
+        
+            character.hp -= fightingCharacter.weapon.damages
+            print("\nTon héros frappe \(character.name) pour \(fightingCharacter.weapon.damages) de dégâts ! 💔\n")
+            if character.hp > 0 {
+                print("\(character.name) a désormais \(character.hp)/\(character.maxHp) hp\n\n")
             } else {
-                print("\(target.name) n'a plus aucun point de vie 💀 \(target.name) est retiré de l'escouade !\n\n\n")
-                target.hp = 0
-                greatReaper(inTeam: teamIndex, characterNumber: characterNumber)
+                print("\(character.name) n'a plus aucun point de vie 💀 \(character.name) est retiré de l'escouade !\n\n\n")
+                character.hp = 0
             }
             fightingCharacter.weapon.damages = fightingCharacter.defaultCharacterDamages
-
-        } else {
-            print("\n👻 Les fantômes ne peuvent pas tenir une arme !\n")
-            attackEnnemy(inTeam: teamIndex)
-        }
     }
 
 
     // ⬇︎ La grande faucheuse retire un personnage sans PdV du tableau des personnages (squad) et ajoute ce dernier au tableau des héros morts (deadSquadMembers).
-    private func greatReaper(inTeam teamIndex: Int, characterNumber: Int) {
-        game.players[teamIndex].deadSquadMembers.append(game.players[teamIndex].squad[characterNumber])
-        game.players[teamIndex].squad.remove(at: characterNumber)
+    private func greatReaper(deadCharacter: Character) {
+        
+        self.deadSquadMembers.append(deadCharacter)
     }
     
+    private func removeDeadPlayers() {
+        self.squad.removeAll(where: { character in character.hp == 0
+        })
+}
 }
