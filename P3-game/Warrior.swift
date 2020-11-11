@@ -9,12 +9,11 @@
 import Foundation
 
 class Warrior: Character {
-    // FIXME: trouver d'autres armes chestWeapons
-    private let sandal = Weapon(weaponType: "sandale", damages: 12)
-    private let woodenClub = Weapon(weaponType: "gourdin en bois", damages: 24)
-    private let steelMace = Weapon(weaponType: "masse en acier", damages: 60)
-    private let legendaryMace = Weapon(weaponType: "masse légendaire", damages: 70)
-    private let oraclesFireAxe = Weapon(weaponType: "hâche de feu des Oracles", damages: 80)
+    private let sandal = Weapon(weaponType: "sandale", damages: Int.random(in: 4...22))
+    private let woodenClub = Weapon(weaponType: "gourdin en bois", damages: Int.random(in: 23...44))
+    private let steelMace = Weapon(weaponType: "masse en acier", damages: Int.random(in: 44...69))
+    private let legendaryMace = Weapon(weaponType: "masse légendaire", damages: Int.random(in: 70...78))
+    private let oraclesFireAxe = Weapon(weaponType: "hâche de feu des Oracles", damages: Int.random(in: 79...85))
     
     override init(name: String = "") {
         super.init(name: name)

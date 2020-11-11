@@ -47,9 +47,18 @@ class Character {
     var defaultCharacterDamages = Int()
     
     // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction createMySquad de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà.
-    static var charactersNames = [String]()
+    static var charactersNames: [String] = []
     
     
+//    private var allPlayerNames: [String] = []
+//
+//    var playerNames: [String] {
+//        var names: [String] = []
+//        for player in players {
+//            names.append(player.name)
+//        }
+//        return names
+//    }
     
     
 }
