@@ -76,9 +76,9 @@ class Game {
             for player in players {
                 if player.squadIsDead == false { // ‣ Ensures that the condition is still false so the loop ends here if player 1 wins
                     
-                    player.ennemy = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase
+                    let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase
                     player.pickFighter()
-                    player.chooseFighterAction() //
+                    player.chooseFighterAction(ennemies: opponent.squad) //
                 }
             }
             roundCount += 1
