@@ -165,10 +165,10 @@ class Player {
         }
     }
     
-    private func healAlly(ennemies: [Character]) { // Les paramètres est utilisé pour le case 0, dans le cas ou le joueur revient au menu précédent.
+    private func healAlly(ennemies: [Character]) { // ‣ Parameter is needed here in case the user chooses to go back to the "chooseFighterAction" method through case '0'
         print("Quel allié veux-tu soigner ? 🏥\n")
         for (index, character) in squad.enumerated() {
-            if character.hp > 0 {
+            if character.hp > 0 { // ‣
                 print("\(index+1). Soigner \(character.name) ton \(character.characterType) (\(character.hp)/\(character.maxHp) hp) \n")
             }
         }
@@ -183,25 +183,23 @@ class Player {
             case "3" where squad[2].hp > 0 :
                 heal(characterNumber: 2, ennemies: ennemies)
             case "0" :
-                chooseFighterAction(ennemies: ennemies) // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
-            
+                chooseFighterAction(ennemies: ennemies) // ‣ Player can switch back to the previous menu (required in case whole team has max HP and nobody can be healed, otherwise the player could get stuck)
             default :
                 print("\n🚣‍♂️ Merci de saisir un chiffre correspondant à l'un des personnages de ton escouade, ou taper '0' puis 'Entrée' pour effectuer une autre action.\n\n")
                 healAlly(ennemies: ennemies)
             }
-            
         }
     }
     
-    private func heal(characterNumber: Int, ennemies: [Character]) {
-        let target = squad[characterNumber]
-        if target.hp <= target.maxHp - fightingCharacter.healSkill { // ‣ Si les HP actuels du character ciblé par le soin ont un écart supérieur ou égal au montant de la propriété HealSkill, comparé à son maxHP, ajouter ce montant en entier.
+    private func heal(characterNumber: Int, ennemies: [Character]) { // ‣ 'ennemies' parameter is needed here because healAlly (line 202) requires an argument
+        let target = squad[characterNumber] // ‣ target = healed character
+        if target.hp <= target.maxHp - fightingCharacter.healSkill { // ‣ If the difference between the target's current and max HPs is greater than or equal to the fighting character's healSkill amount, add this amount as a whole :
             target.hp += fightingCharacter.healSkill
             print("\(target.name) récupère \(fightingCharacter.healSkill) points de vie ♥️ \(target.name) a désormais \(target.hp) hp\n")
-        } else if target.hp == target.maxHp { // ‣ Si les hp actuels du character sont déjà au maximum :
+        } else if target.hp == target.maxHp { // ‣ If target's current HPs are already at their maximum
             print("\n🚣‍♂️ Ce personnage a déjà le maximum de points de vie. Soigne un autre membre de ton escouade ou effectue une autre action.\n\n")
             healAlly(ennemies: ennemies)
-        } else { // ‣ Si les HP actuels du character ont un écart inférieur au montant de la compétence healskill, ajouter seulement la différence pour atteindre le maxHp.
+        } else { // ‣ If the difference between the target's current and max HPs is lower than the fighting character's healSkill amount, only add the difference to reach maxHP
             print("\(target.name) récupère \(target.maxHp - target.hp) points de vie ♥️")
             target.hp += target.maxHp - target.hp
             print(" \(target.name) a désormais \(target.maxHp) hp\n")
@@ -220,14 +218,13 @@ class Player {
         
         if let choice = readLine() {
             switch choice {
-            case "1" where ennemies[0].hp > 0 : attack(target: ennemies[0]) // "Attaquer le character numéro: "
+            case "1" where ennemies[0].hp > 0 : attack(target: ennemies[0])
             case "2" where ennemies[1].hp > 0 : attack(target: ennemies[1])
             case "3" where ennemies[2].hp > 0 : attack(target: ennemies[2])
-            case "0" : chooseFighterAction(ennemies: ennemies) // ‣ Le joueur peut revenir au menu précédent s'il le souhaite.
+            case "0" : chooseFighterAction(ennemies: ennemies) // ‣ User can switch back to the previous menu
             default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
                 attackEnnemy(ennemies: ennemies)
             }
-            
         }
     }
     

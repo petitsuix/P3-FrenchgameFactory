@@ -14,35 +14,32 @@ class Character {
     
     var description = ""
     
-    // ⬇︎ Constante non déclarée pour assigner un nom à chaque character
+    // ⬇︎ Character's name
     var name: String
     
     init(name: String) {
         self.name = name
     }
     
-    // ⬇︎ Type du personnage : Magicien, Guerrier, Nain...
     var characterType = String()
     
-    // ⬇︎ Nombre de points de vie du personnage
+    // ⬇︎ Character's health points
     var hp: Int = 100
     
-    // ⬇︎ Nombre de points de vie maximum du personnage
+    // ⬇︎ Character's maximum health points
     var maxHp = 100
     
-    // ⬇︎ Compétence soin
     var healSkill = Int()
     
-    // ⬇︎ Arme en main
+    // ⬇︎ Weapon currently held
     var currentWeapon = Weapon(weaponType: "", damages: 0)
     
-    // ⬇︎ Arme du coffre
     var chestWeapon = Weapon(weaponType: "", damages: 0)
     
-    // ⬇︎ Arme par défaut
     var defaultWeapon = Weapon(weaponType: "", damages: 0)
     
     // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction chooseName de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà. Il a été mis en static pour qu'il puisse être appelé et complété par chaque player
+    // ⬇︎ Array of reference for all characters names chosen by players. Only called in
     static var charactersNames: [String] = []
 }
 
