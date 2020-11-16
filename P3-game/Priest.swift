@@ -21,10 +21,10 @@ class Priest: Character {
         hp = 90
         maxHp = 90
         healSkill = 65
-        weapon = Weapon(weaponType: "bâton des sages  🎋", damages: 20)
+        defaultWeapon = Weapon(weaponType: "bâton des sages  🎋", damages: 20)
+        currentWeapon = Weapon(weaponType: "bâton des sages  🎋", damages: 20)
         chestWeapons = [mandoline, sickle, natureStick, stormStick, godsSceptre]
-        defaultCharacterDamages = 20
-        description = "5. Prêtre   🧖🏼‍♂️ ▸ pdv: \(maxHp)  | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+        description = "5. Prêtre   🧖🏼‍♂️ ▸ pdv: \(maxHp)  | arme: \(currentWeapon.weaponType) (\(currentWeapon.damages) de dégâts) | soins: \(healSkill)"
         characterType = "prêtre 🧖🏼‍♂️"
     }
     

@@ -20,11 +20,10 @@ class Warrior: Character {
         hp = 120
         maxHp = 120
         healSkill = 15
-        defaultWeaponType = "masse en fer     🔩"
-        defaultCharacterDamages = 50
         chestWeapons = [legendaryMace, sandal, woodenClub, steelMace, oraclesFireAxe]
-        weapon = Weapon(weaponType: "masse en fer     🔩", damages: 50)
-        description = "1. Guerrier 👨🏿‍⚖️ ▸ pdv: \(maxHp) | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+        defaultWeapon = Weapon(weaponType: "masse en fer     🔩", damages: 50)
+        currentWeapon = Weapon(weaponType: "masse en fer     🔩", damages: 50)
+        description = "1. Guerrier 👨🏿‍⚖️ ▸ pdv: \(maxHp) | arme: \(currentWeapon.weaponType) (\(currentWeapon.damages) de dégâts) | soins: \(healSkill)"
         characterType = "guerrier 👨🏿‍⚖️"
     }
     

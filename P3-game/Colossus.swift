@@ -21,10 +21,10 @@ class Colossus: Character {
         hp = 140
         maxHp = 140
         healSkill = 15
-        weapon = Weapon(weaponType: "tronc d'arbre    🌲", damages: 40)
+        defaultWeapon = Weapon(weaponType: "tronc d'arbre    🌲", damages: 40)
+        currentWeapon = Weapon(weaponType: "tronc d'arbre    🌲", damages: 40)
         chestWeapons = [brick, tableStand, crossBow, ironScythe, spearOfTheDoomed]
-        defaultCharacterDamages = 40
-        description = "4. Colosse  🏋🏻 ▸ pdv: \(maxHp) | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+        description = "4. Colosse  🏋🏻 ▸ pdv: \(maxHp) | arme: \(currentWeapon.weaponType) (\(currentWeapon.damages) de dégâts) | soins: \(healSkill)"
         characterType = "colosse 🏋🏻"
     }
     

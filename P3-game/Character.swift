@@ -12,8 +12,6 @@ class Character {
     
     var chestWeapons: [Weapon] = []
     
-    var chestWeapon = Weapon(weaponType: "", damages: 0)
-    
     var description = ""
     
     // ⬇︎ Constante non déclarée pour assigner un nom à chaque character
@@ -35,32 +33,17 @@ class Character {
     // ⬇︎ Compétence soin
     var healSkill = Int()
     
-    // ⬇︎ Détermine le character séléctionné (qui effectue l'action)
-    var fightingCharacterNumber = Int()
+    // ⬇︎ Arme en main
+    var currentWeapon = Weapon(weaponType: "", damages: 0)
     
-    // ⬇︎ Arme du personnage
-    var weapon = Weapon(weaponType: "", damages: 0)
+    // ⬇︎ Arme du coffre
+    var chestWeapon = Weapon(weaponType: "", damages: 0)
     
-    var defaultWeaponType = String()
+    // ⬇︎ Arme par défaut
+    var defaultWeapon = Weapon(weaponType: "", damages: 0)
     
-    // ⬇︎ Dommages par défaut du character
-    var defaultCharacterDamages = Int()
-    
-    // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction createMySquad de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà.
+    // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction chooseName de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà. Il a été mis en static pour qu'il puisse être appelé et complété par chaque player
     static var charactersNames: [String] = []
-    
-    
-//    private var allPlayerNames: [String] = []
-//
-//    var playerNames: [String] {
-//        var names: [String] = []
-//        for player in players {
-//            names.append(player.name)
-//        }
-//        return names
-//    }
-    
-    
 }
 
 

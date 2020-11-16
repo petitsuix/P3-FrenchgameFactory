@@ -21,10 +21,10 @@ class Dwarf: Character {
         hp = 100
         maxHp = 100
         healSkill = 30
-        weapon = Weapon(weaponType: "hâche rutilante  🪓", damages: 40)
+        defaultWeapon = Weapon(weaponType: "hâche rutilante  🪓", damages: 40)
+        currentWeapon = Weapon(weaponType: "hâche rutilante  🪓", damages: 40)
         chestWeapons = [stool, lumberJacksAxe, doubleSteelAxe, doubleScourge, dwarfKingsSpear]
-        defaultCharacterDamages = 40
-        description = "3. Nain     👨🏿‍🚒 ▸ pdv: \(maxHp) | arme: \(weapon.weaponType) (\(weapon.damages) de dégâts) | soins: \(healSkill)"
+        description = "3. Nain     👨🏿‍🚒 ▸ pdv: \(maxHp) | arme: \(currentWeapon.weaponType) (\(currentWeapon.damages) de dégâts) | soins: \(healSkill)"
         characterType = "nain 👨🏿‍🚒"
     }
     
