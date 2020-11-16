@@ -9,6 +9,7 @@
 import Foundation
 
 class Warrior: Character {
+    
     private let sandal = Weapon(weaponType: "sandale", damages: Int.random(in: 4...22))
     private let woodenClub = Weapon(weaponType: "gourdin en bois", damages: Int.random(in: 23...44))
     private let steelMace = Weapon(weaponType: "masse en acier", damages: Int.random(in: 44...69))

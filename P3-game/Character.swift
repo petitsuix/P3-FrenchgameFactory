@@ -38,8 +38,7 @@ class Character {
     
     var defaultWeapon = Weapon(weaponType: "", damages: 0)
     
-    // ⬇︎ Tableau référent contenant tous les noms des personnages choisis par tous les joueurs. Appelé uniquement dans la fonction chooseName de la classe Player lors de l'assignation par l'utilisateur de noms à ses personnages. Ce tableau permet de s'assurer que les noms choisis n'existent pas déjà. Il a été mis en static pour qu'il puisse être appelé et complété par chaque player
-    // ⬇︎ Array of reference for all characters names chosen by players. Only called in
+    // ⬇︎ Array of reference for all characters names chosen by players. Only called in chooseName (in Player) when a player is assigning names to his characters. It allows to verify that the entry doesn't already exist. Was set as static because we want it common to all players, so they all interact with and fill the same array property
     static var charactersNames: [String] = []
 }
 
