@@ -9,6 +9,6 @@
 import Foundation
 
 struct Weapon {
-    var weaponType: String
+    let type: String
     let damages: Int
 }

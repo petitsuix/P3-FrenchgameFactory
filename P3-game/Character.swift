@@ -14,12 +14,7 @@ class Character {
     
     var description = ""
     
-    // ⬇︎ Character's name
     var name: String
-    
-    init(name: String) {
-        self.name = name
-    }
     
     var characterType = String()
     
@@ -32,14 +27,18 @@ class Character {
     var healSkill = Int()
     
     // ⬇︎ Weapon currently held
-    var currentWeapon = Weapon(weaponType: "", damages: 0)
+    var currentWeapon = Weapon(type: "", damages: 0)
     
-    var chestWeapon = Weapon(weaponType: "", damages: 0)
+    var drewChestWeapon = Weapon(type: "", damages: 0)
     
-    var defaultWeapon = Weapon(weaponType: "", damages: 0)
+    var defaultWeapon = Weapon(type: "", damages: 0)
     
-    // ⬇︎ Array of reference for all characters names chosen by players. Only called in chooseName (in Player) when a player is assigning names to his characters. It allows to verify that the entry doesn't already exist. Was set as static because we want it common to all players, so they all interact with and fill the same array property
+    // ⬇︎ Array of reference for all characters names chosen by players. Only called in chooseName (in Player) when a player is assigning names to his characters. It allows to verify that the entry doesn't already exist. Was set as static because we want it changeable by player instances, so they all interact with and fill the same array
     static var charactersNames: [String] = []
+    
+    init(name: String) {
+        self.name = name
+    }
 }
 
 

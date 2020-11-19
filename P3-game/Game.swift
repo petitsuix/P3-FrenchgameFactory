@@ -10,6 +10,12 @@ import Foundation
 
 class Game {
     
+// MARK: - Public properties
+    
+    var roundCount = 0
+    
+// MARK: - Private properties
+    
     // ⬇︎ Contains Player instances, relating to the number of players in game.
     private var players: [Player] = []
     
@@ -22,7 +28,7 @@ class Game {
         return names
     }
     
-    var roundCount = 0
+// MARK: - Public methods
     
     // ⬇︎ Calls game initialisation methods : welcome message, creation of players, creation of their respective team (squad). Also calls the playing phase with battleRounds, and the endOfGame method.
     func startGame() {
@@ -35,14 +41,15 @@ class Game {
         endOfGame()
     }
     
+// MARK: - Private methods
+    
     // ⬇︎ Creates a player with a unique name.
     private func createPlayer() {
         
         let player = Player()
-        
         print("\n\n👑 Joueur \(players.count+1) 👑 A toi de choisir un nom d'équipe :")
         
-        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // If userInput is equal to trimmed readLine, and if it's not empty :
+        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
             if allPlayerNames.contains(userInput) { // Verify that this name is not taken already
                 print("Ce nom est déjà pris.")
                 createPlayer()
@@ -57,7 +64,6 @@ class Game {
         }
     }
     
-    
     // ⬇︎ For every player, calls the createMySquad method
     private func createTeams() {
         print("\nForme ton escouade de 3 personnages 🧍🏽‍♂️\n")
@@ -68,8 +74,7 @@ class Game {
     
     // ⬇︎ One round. Action phase.
     private func battleRounds() {
-        
-        // ⬇︎ As long as both conditions are false, beginning of a new round
+        // ⬇︎ As long as both conditions are false, starts a new round
         while players[0].squadIsDead == false && players[1].squadIsDead == false {
             
             print("\n\n⚔️【 ROUND \(roundCount+1) 】⚔️\n\n\n")
@@ -78,7 +83,7 @@ class Game {
                     
                     let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase
                     player.pickFighter()
-                    player.chooseFighterAction(ennemies: opponent.squad) //
+                    player.chooseFighterAction(ennemySquad: opponent.squad)
                 }
             }
             roundCount += 1
@@ -86,11 +91,10 @@ class Game {
     }
     
     // ⬇︎ Displays winner and end-game stats
-    func endOfGame() {
+    private func endOfGame() {
         declareWinner()
         displayStats()
     }
-    
     
     private func declareWinner() {
         print("\n\n Ho ho... Nous avons un VAINQUEUR ! 🎉\n\n")
@@ -112,6 +116,7 @@ class Game {
             print("\n-- ☠️ Personnages morts ☠️ --")
             for character in player.squad where character.hp == 0 {
                 charactersStats(character: character)
+                // character.stats
             }
             if player.aliveSquadCharacters.count > 0 { // For better clarity, shows only if player still has alive characters
                 print("\n\n-- ⭐️ Survivants ⭐️ --")
@@ -121,6 +126,7 @@ class Game {
             }
         }
     }
+    
     private func charactersStats(character: Character) {
         print("\n • '\(character.name)'"
                 + "\n- Classe: \(character.characterType)"

@@ -9,6 +9,8 @@ import Foundation
 
 class Player {
     
+// MARK: - Public properties
+    
     var name = String()
     
     // ⬇︎ Characters array. Contains each player's 3 characters chosen during the game initialisation phase
@@ -19,7 +21,6 @@ class Player {
         squad.filter { $0.hp > 0 }
     }
     
-    
     // ⬇︎ Allows to know if all elements in a squad are dead, and therefore if the game is over
     var squadIsDead: Bool {
         if aliveSquadCharacters.isEmpty {
@@ -29,19 +30,23 @@ class Player {
         }
     }
     
+// MARK: - Private properties
+    
     // ⬇︎ Allows to keep a reference to the character chosen by the player for an ongoing round. It is used in several methods throughout battleRounds phase (chest(), attack()...) therefore wasn't declared on a local level.
     private var fightingCharacter = Character(name: "")
     
     // ⬇︎ The value of chestChances determines if a chest appears or not
     private var chestChances = Int()
     
+// MARK: - Public methods
+    
     // ⬇︎ Adds instances of Character subclasses to the player's squad. 3 times in a row, asks for a character type and a unique name.
     func createMySquad() {
         let playableCharacters = [Warrior(), Magus(), Dwarf(), Colossus(), Priest()]
         while squad.count < 3 {
             print("🔔 Choisis le personnage numero \(squad.count+1) parmi les suivants :\n")
-            for characters in playableCharacters {
-                print("\(characters.description)")
+            for character in playableCharacters {
+                print("\(character.description)")
             }
             let choice = readLine()
             switch choice {
@@ -62,26 +67,6 @@ class Player {
                 chooseName(of: "Prêtre 🧖🏼‍♂️")
             default: print("🚣‍♂️ Merci de taper un chiffre entre 1 et 5 pour choisir le personnage correspondant")
             }
-        }
-    }
-    
-    
-    // ⬇︎ Defines a unique name
-    private func chooseName(of type: String) {
-        print("\nTu as opté pour un \(type) choisis-lui un nom 🏷")
-        
-        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
-            if Character.charactersNames.contains(userInput) { // To make sure that the name doesn't already exist, checks the array containing all names
-                print("Ce nom est déjà pris.")
-                chooseName(of: type)
-            } else {
-                Character.charactersNames.append(userInput) // If not, adds the value to names array
-                squad[squad.count-1].name = userInput // Also assigns the value to character's 'name' property
-                print("\nAdjugé vendu 🙌 Ton \(type) se nommera \(userInput) !\n\n")
-            }
-        } else {
-            print("Choisis un nom valide")
-            chooseName(of: type)
         }
     }
     
@@ -107,8 +92,47 @@ class Player {
                 pickFighter()
             }
         }
-        
     }
+    
+    func chooseFighterAction(ennemySquad: [Character]) {
+        print("🔔 Que veux-tu faire ?\n"
+                + "\n1. Soigner un allié ⛑"
+                + "\n2. Attaquer un membre de l'escouade adverse 🔪")
+        if let choice = readLine() {
+            switch choice {
+            case "1" :
+                healChoices()
+                
+            case "2" :
+                attackChoices(ennemySquad: ennemySquad)
+                
+            default: print("🚣‍♀️ Merci de taper un chiffre correspondant à l'une des deux options.")
+                chooseFighterAction(ennemySquad: ennemySquad)
+            }
+        }
+    }
+    
+// MARK: - Private methods
+    
+    // ⬇︎ Defines a unique name
+    private func chooseName(of type: String) {
+        print("\nTu as opté pour un \(type) choisis-lui un nom 🏷")
+        
+        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
+            if Character.charactersNames.contains(userInput) { // To make sure that the name doesn't already exist, checks the array containing all names
+                print("Ce nom est déjà pris.")
+                chooseName(of: type)
+            } else {
+                Character.charactersNames.append(userInput) // If not, adds the value to names array
+                squad[squad.count-1].name = userInput // Also assigns the value to character's 'name' property
+                print("\nAdjugé vendu 🙌 Ton \(type) se nommera \(userInput) !\n\n")
+            }
+        } else {
+            print("Choisis un nom valide")
+            chooseName(of: type)
+        }
+    }
+
     
     private func choosenFighter(characterNumber: Int) {
         fightingCharacter = squad[characterNumber]
@@ -119,10 +143,10 @@ class Player {
     private func chest() {
         chestChances = Int.random(in: 1...10)
         if chestChances <= 5 {
-            fightingCharacter.chestWeapon = fightingCharacter.chestWeapons.randomElement()!
+            fightingCharacter.drewChestWeapon = fightingCharacter.chestWeapons.randomElement()!
             print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
-            print("\nIl contient une arme : ✨ \(fightingCharacter.chestWeapon.weaponType) ✨ Cette arme inflige \(fightingCharacter.chestWeapon.damages) points de dégâts !")
-            keepChestWeaponOrNot(chestWeapon: fightingCharacter.chestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
+            print("\nIl contient une arme : ✨ \(fightingCharacter.drewChestWeapon.type) ✨ Cette arme inflige \(fightingCharacter.drewChestWeapon.damages) points de dégâts !")
+            keepChestWeaponOrNot(chestWeapon: fightingCharacter.drewChestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
         }
     }
     
@@ -147,58 +171,36 @@ class Player {
         }
     }
     
-    func chooseFighterAction(ennemies: [Character]) {
-        print("🔔 Que veux-tu faire ?\n"
-                + "\n1. Soigner un allié ⛑"
-                + "\n2. Attaquer un membre de l'escouade adverse 🔪")
-        if let choice = readLine() {
-            switch choice {
-            case "1" :
-                healAlly(ennemies: ennemies)
-                
-            case "2" :
-                attackEnnemy(ennemies: ennemies)
-                
-            default: print("🚣‍♀️ Merci de taper un chiffre correspondant à l'une des deux options.")
-                chooseFighterAction(ennemies: ennemies)
-            }
-        }
-    }
-    
-    private func healAlly(ennemies: [Character]) { // ‣ Parameter is needed here in case the user chooses to go back to the "chooseFighterAction" method through case '0'
+    private func healChoices() {
         print("Quel allié veux-tu soigner ? 🏥\n")
         for (index, character) in squad.enumerated() {
             if character.hp > 0 { // ‣
                 print("\(index+1). Soigner \(character.name) ton \(character.characterType) (\(character.hp)/\(character.maxHp) hp) \n")
             }
         }
-        print("0. Effectuer une autre action 🙇🏻‍♂️")
         
         if let choice = readLine() {
             switch choice {
             case "1" where squad[0].hp > 0 :
-                heal(characterNumber: 0, ennemies: ennemies)
+                heal(characterNumber: 0)
             case "2" where squad[1].hp > 0 :
-                heal(characterNumber: 1, ennemies: ennemies)
+                heal(characterNumber: 1)
             case "3" where squad[2].hp > 0 :
-                heal(characterNumber: 2, ennemies: ennemies)
-            case "0" :
-                chooseFighterAction(ennemies: ennemies) // ‣ Player can switch back to the previous menu (required in case whole team has max HP and nobody can be healed, otherwise the player could get stuck)
+                heal(characterNumber: 2)
             default :
-                print("\n🚣‍♂️ Merci de saisir un chiffre correspondant à l'un des personnages de ton escouade, ou taper '0' puis 'Entrée' pour effectuer une autre action.\n\n")
-                healAlly(ennemies: ennemies)
+                print("\n🚣‍♂️ Merci de saisir un chiffre correspondant à l'un des personnages de ton escouade.\n\n")
+                healChoices()
             }
         }
     }
     
-    private func heal(characterNumber: Int, ennemies: [Character]) { // ‣ 'ennemies' parameter is needed here because healAlly (line 202) requires an argument
+    private func heal(characterNumber: Int) {
         let target = squad[characterNumber] // ‣ target = healed character
         if target.hp <= target.maxHp - fightingCharacter.healSkill { // ‣ If the difference between the target's current and max HPs is greater than or equal to the fighting character's healSkill amount, add this amount as a whole :
             target.hp += fightingCharacter.healSkill
             print("\(target.name) récupère \(fightingCharacter.healSkill) points de vie ♥️ \(target.name) a désormais \(target.hp) hp\n")
         } else if target.hp == target.maxHp { // ‣ If target's current HPs are already at their maximum
-            print("\n🚣‍♂️ Ce personnage a déjà le maximum de points de vie. Soigne un autre membre de ton escouade ou effectue une autre action.\n\n")
-            healAlly(ennemies: ennemies)
+            print("\n🚣‍♂️ Ce personnage avait déjà le maximum de points de vie. Cela n'a eu aucun effet...\n\n")
         } else { // ‣ If the difference between the target's current and max HPs is lower than the fighting character's healSkill amount, only add the difference to reach maxHP
             print("\(target.name) récupère \(target.maxHp - target.hp) points de vie ♥️")
             target.hp += target.maxHp - target.hp
@@ -206,28 +208,24 @@ class Player {
         }
     }
     
-    
-    private func attackEnnemy(ennemies: [Character]) {
+    private func attackChoices(ennemySquad: [Character]) {
         print("\n\nQuel ennemi veux-tu attaquer ? ⚔️\n")
-        for (index, character) in ennemies.enumerated() {
+        for (index, character) in ennemySquad.enumerated() {
             if character.hp > 0 {
                 print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
             }
         }
-        print("0. Effectuer une autre action 🙇🏻‍♂️")
         
         if let choice = readLine() {
             switch choice {
-            case "1" where ennemies[0].hp > 0 : attack(target: ennemies[0])
-            case "2" where ennemies[1].hp > 0 : attack(target: ennemies[1])
-            case "3" where ennemies[2].hp > 0 : attack(target: ennemies[2])
-            case "0" : chooseFighterAction(ennemies: ennemies) // ‣ User can switch back to the previous menu
+            case "1" where ennemySquad[0].hp > 0 : attack(target: ennemySquad[0])
+            case "2" where ennemySquad[1].hp > 0 : attack(target: ennemySquad[1])
+            case "3" where ennemySquad[2].hp > 0 : attack(target: ennemySquad[2])
             default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
-                attackEnnemy(ennemies: ennemies)
+                attackChoices(ennemySquad: ennemySquad)
             }
         }
     }
-    
     
     private func attack(target: Character) {
         target.hp -= fightingCharacter.currentWeapon.damages
