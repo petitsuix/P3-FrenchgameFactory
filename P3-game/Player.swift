@@ -9,9 +9,9 @@ import Foundation
 
 class Player {
     
-// MARK: - Public properties
+    // MARK: - Internal properties
     
-    var name = String()
+    var name: String
     
     // ⬇︎ Characters array. Contains each player's 3 characters chosen during the game initialisation phase
     var squad: [Character] = []
@@ -30,17 +30,17 @@ class Player {
         }
     }
     
-// MARK: - Private properties
+    init(name: String) {
+        self.name = name
+    }
+    // MARK: - Private properties
     
     // ⬇︎ Allows to keep a reference to the character chosen by the player for an ongoing round. It is used in several methods throughout battleRounds phase (chest(), attack()...) therefore wasn't declared on a local level.
     private var fightingCharacter = Character(name: "")
     
-    // ⬇︎ The value of chestChances determines if a chest appears or not
-    private var chestChances = Int()
+    // MARK: - Internal methods
     
-// MARK: - Public methods
-    
-    // ⬇︎ Adds instances of Character subclasses to the player's squad. 3 times in a row, asks for a character type and a unique name.
+    // ⬇︎ Adds instances of Character subclasses to the player's squad. Up to 3, asks for a character type and a unique name.
     func createMySquad() {
         let playableCharacters = [Warrior(), Magus(), Dwarf(), Colossus(), Priest()]
         while squad.count < 3 {
@@ -94,7 +94,7 @@ class Player {
         }
     }
     
-    func chooseFighterAction(ennemySquad: [Character]) {
+    func chooseFighterAction(enemySquad: [Character]) {
         print("🔔 Que veux-tu faire ?\n"
                 + "\n1. Soigner un allié ⛑"
                 + "\n2. Attaquer un membre de l'escouade adverse 🔪")
@@ -102,17 +102,15 @@ class Player {
             switch choice {
             case "1" :
                 healChoices()
-                
             case "2" :
-                attackChoices(ennemySquad: ennemySquad)
-                
+                attackChoices(enemySquad: enemySquad)
             default: print("🚣‍♀️ Merci de taper un chiffre correspondant à l'une des deux options.")
-                chooseFighterAction(ennemySquad: ennemySquad)
+                chooseFighterAction(enemySquad: enemySquad)
             }
         }
     }
     
-// MARK: - Private methods
+    // MARK: - Private methods
     
     // ⬇︎ Defines a unique name
     private func chooseName(of type: String) {
@@ -132,7 +130,6 @@ class Player {
             chooseName(of: type)
         }
     }
-
     
     private func choosenFighter(characterNumber: Int) {
         fightingCharacter = squad[characterNumber]
@@ -141,17 +138,19 @@ class Player {
     }
     
     private func chest() {
-        chestChances = Int.random(in: 1...10)
-        if chestChances <= 5 {
-            fightingCharacter.drewChestWeapon = fightingCharacter.chestWeapons.randomElement()!
+        // ⬇︎ The value of chestChances determines if a chest appears or not
+        
+        let chestChances = Int.random(in: 1...10)
+        if chestChances <= 5, let chestWeapon = fightingCharacter.chestWeapons.randomElement() {
+            fightingCharacter.drewChestWeapon = chestWeapon
             print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
             print("\nIl contient une arme : ✨ \(fightingCharacter.drewChestWeapon.type) ✨ Cette arme inflige \(fightingCharacter.drewChestWeapon.damages) points de dégâts !")
-            keepChestWeaponOrNot(chestWeapon: fightingCharacter.drewChestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
+            keepChestWeaponOrNot(drewChestWeapon: fightingCharacter.drewChestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
         }
     }
     
     // ⬇︎ Chest weapon confirmation method
-    private func keepChestWeaponOrNot(chestWeapon: Weapon) {
+    private func keepChestWeaponOrNot(drewChestWeapon: Weapon) {
         print("\nVeux-tu t'en équiper pour ce tour ?\n\n"
                 + "1. Oui 🙋\n"
                 + "2. Non 🙅")
@@ -159,14 +158,14 @@ class Player {
             switch choice {
             case "1" :
                 // ‣ Oui: current weapon is replaced
-                fightingCharacter.currentWeapon = chestWeapon
+                fightingCharacter.currentWeapon = drewChestWeapon
                 print("\nTrès bien, on la prend ! 🎒\n")
             case "2" :
                 print("\nTrès bien, on leur retourne le cadeau ! 💨")
                 break
             default :
                 print("🚣‍♂️ Merci de saisir un chiffre correspondant à Oui ou Non.")
-                keepChestWeaponOrNot(chestWeapon: chestWeapon)
+                keepChestWeaponOrNot(drewChestWeapon: drewChestWeapon)
             }
         }
     }
@@ -208,9 +207,9 @@ class Player {
         }
     }
     
-    private func attackChoices(ennemySquad: [Character]) {
+    private func attackChoices(enemySquad: [Character]) {
         print("\n\nQuel ennemi veux-tu attaquer ? ⚔️\n")
-        for (index, character) in ennemySquad.enumerated() {
+        for (index, character) in enemySquad.enumerated() {
             if character.hp > 0 {
                 print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
             }
@@ -218,11 +217,11 @@ class Player {
         
         if let choice = readLine() {
             switch choice {
-            case "1" where ennemySquad[0].hp > 0 : attack(target: ennemySquad[0])
-            case "2" where ennemySquad[1].hp > 0 : attack(target: ennemySquad[1])
-            case "3" where ennemySquad[2].hp > 0 : attack(target: ennemySquad[2])
+            case "1" where enemySquad[0].hp > 0 : attack(target: enemySquad[0])
+            case "2" where enemySquad[1].hp > 0 : attack(target: enemySquad[1])
+            case "3" where enemySquad[2].hp > 0 : attack(target: enemySquad[2])
             default: print("🚣‍♂️ Merci de saisir un chiffre correspondant à l'action souhaitée\n")
-                attackChoices(ennemySquad: ennemySquad)
+                attackChoices(enemySquad: enemySquad)
             }
         }
     }

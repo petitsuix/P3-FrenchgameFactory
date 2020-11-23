@@ -10,11 +10,9 @@ import Foundation
 
 class Game {
     
-// MARK: - Public properties
+    // MARK: - Private properties
     
-    var roundCount = 0
-    
-// MARK: - Private properties
+    private var roundCount = 0
     
     // ⬇︎ Contains Player instances, relating to the number of players in game.
     private var players: [Player] = []
@@ -28,7 +26,7 @@ class Game {
         return names
     }
     
-// MARK: - Public methods
+    // MARK: - Internal methods
     
     // ⬇︎ Calls game initialisation methods : welcome message, creation of players, creation of their respective team (squad). Also calls the playing phase with battleRounds, and the endOfGame method.
     func startGame() {
@@ -41,12 +39,12 @@ class Game {
         endOfGame()
     }
     
-// MARK: - Private methods
+    // MARK: - Private methods
     
+    
+    // MARK: Private methods
     // ⬇︎ Creates a player with a unique name.
     private func createPlayer() {
-        
-        let player = Player()
         print("\n\n👑 Joueur \(players.count+1) 👑 A toi de choisir un nom d'équipe :")
         
         if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
@@ -54,8 +52,8 @@ class Game {
                 print("Ce nom est déjà pris.")
                 createPlayer()
             } else {
+                let player = Player(name: userInput)
                 players.append(player)
-                player.name = userInput
                 print("Très bien équipe \(player.name).")
             }
         } else {
@@ -80,10 +78,9 @@ class Game {
             print("\n\n⚔️【 ROUND \(roundCount+1) 】⚔️\n\n\n")
             for player in players {
                 if player.squadIsDead == false { // ‣ Ensures that the condition is still false so the loop ends here if player 1 wins
-                    
-                    let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase
+                    let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase. Le tableau opponent prend comme valeur l'élément du tableau players dont le nom sera différent de celui qui joue le tour en cours ($0 correspond à l'élément actuel du tableau inspecté), à l'index 0 car il n'y aura toujours qu'un seul élément dans le nouveau tableau filtré
                     player.pickFighter()
-                    player.chooseFighterAction(ennemySquad: opponent.squad)
+                    player.chooseFighterAction(enemySquad: opponent.squad)
                 }
             }
             roundCount += 1
@@ -115,19 +112,19 @@ class Game {
             print("\n\n\n🙋 Statistiques des personnages de l'équipe \(player.name):\n")
             print("\n-- ☠️ Personnages morts ☠️ --")
             for character in player.squad where character.hp == 0 {
-                charactersStats(character: character)
+                characterStats(character: character)
                 // character.stats
             }
             if player.aliveSquadCharacters.count > 0 { // For better clarity, shows only if player still has alive characters
                 print("\n\n-- ⭐️ Survivants ⭐️ --")
                 for character in player.aliveSquadCharacters {
-                    charactersStats(character: character)
+                    characterStats(character: character)
                 }
             }
         }
     }
     
-    private func charactersStats(character: Character) {
+    private func characterStats(character: Character) {
         print("\n • '\(character.name)'"
                 + "\n- Classe: \(character.characterType)"
                 + "\n- Points de vie: \(character.hp)")
