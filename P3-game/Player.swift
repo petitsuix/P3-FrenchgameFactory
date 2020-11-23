@@ -145,7 +145,7 @@ class Player {
             fightingCharacter.drewChestWeapon = chestWeapon
             print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
             print("\nIl contient une arme : ✨ \(fightingCharacter.drewChestWeapon.type) ✨ Cette arme inflige \(fightingCharacter.drewChestWeapon.damages) points de dégâts !")
-            keepChestWeaponOrNot(drewChestWeapon: fightingCharacter.drewChestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
+            keepChestWeaponOrNot(drewChestWeapon: chestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
         }
     }
     
