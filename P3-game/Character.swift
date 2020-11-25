@@ -31,8 +31,6 @@ class Character {
     
     var chestWeapons: [Weapon] = []
     
-    var drewChestWeapon = Weapon(type: "", damages: 0)
-    
     // ⬇︎ Array of reference for all characters names chosen by players. Only called in chooseName (in Player) when a player is assigning names to his characters. It allows to verify that the entry doesn't already exist. Was set as static because we want it changeable by player instances, so they all interact with and fill the same array
     static var charactersNames: [String] = []
     

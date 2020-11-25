@@ -33,7 +33,7 @@ class Game {
         print("🛡 Bienvenue dans le jeu de combat le plus féroce de l'histoire ! 🛡\n")
         for _ in 1...2 {
             createPlayer()
-            createTeams()
+            createTeam()
         }
         battleRounds()
         endOfGame()
@@ -41,14 +41,12 @@ class Game {
     
     // MARK: - Private methods
     
-    
-    // MARK: Private methods
     // ⬇︎ Creates a player with a unique name.
     private func createPlayer() {
         print("\n\n👑 Joueur \(players.count+1) 👑 A toi de choisir un nom d'équipe :")
         
-        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
-            if allPlayerNames.contains(userInput) { // Verify that this name is not taken already
+        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // ‣ Unwrap if conditions are met
+            if allPlayerNames.contains(userInput) { // ‣ Verify that this name is not taken already
                 print("Ce nom est déjà pris.")
                 createPlayer()
             } else {
@@ -62,15 +60,14 @@ class Game {
         }
     }
     
-    // ⬇︎ For every player, calls the createMySquad method
-    private func createTeams() {
+    private func createTeam() {
         print("\nForme ton escouade de 3 personnages 🧍🏽‍♂️\n")
         for player in players {
             player.createMySquad()
         }
     }
     
-    // ⬇︎ One round. Action phase.
+    // ⬇︎ Action phase.
     private func battleRounds() {
         // ⬇︎ As long as both conditions are false, starts a new round
         while players[0].squadIsDead == false && players[1].squadIsDead == false {
@@ -78,7 +75,7 @@ class Game {
             print("\n\n⚔️【 ROUND \(roundCount+1) 】⚔️\n\n\n")
             for player in players {
                 if player.squadIsDead == false { // ‣ Ensures that the condition is still false so the loop ends here if player 1 wins
-                    let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase. Le tableau opponent prend comme valeur l'élément du tableau players dont le nom sera différent de celui qui joue le tour en cours ($0 correspond à l'élément actuel du tableau inspecté), à l'index 0 car il n'y aura toujours qu'un seul élément dans le nouveau tableau filtré
+                    let opponent = players.filter { player.name != $0.name }[0] // ‣ Identifies the opponent so the programm understands which squad to display (through downstream parameters) during combat phase.
                     player.pickFighter()
                     player.chooseFighterAction(enemySquad: opponent.squad)
                 }
@@ -113,9 +110,8 @@ class Game {
             print("\n-- ☠️ Personnages morts ☠️ --")
             for character in player.squad where character.hp == 0 {
                 characterStats(character: character)
-                // character.stats
             }
-            if player.aliveSquadCharacters.count > 0 { // For better clarity, shows only if player still has alive characters
+            if player.aliveSquadCharacters.count > 0 { // ‣ For better clarity, shows only if player still has alive characters
                 print("\n\n-- ⭐️ Survivants ⭐️ --")
                 for character in player.aliveSquadCharacters {
                     characterStats(character: character)

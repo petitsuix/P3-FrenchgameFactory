@@ -40,7 +40,7 @@ class Player {
     
     // MARK: - Internal methods
     
-    // ⬇︎ Adds instances of Character subclasses to the player's squad. Up to 3, asks for a character type and a unique name.
+    // ⬇︎ Adds instances of Character subclasses to the player's squad. 3 times in a row, asks for a character type and a unique name.
     func createMySquad() {
         let playableCharacters = [Warrior(), Magus(), Dwarf(), Colossus(), Priest()]
         while squad.count < 3 {
@@ -82,11 +82,11 @@ class Player {
         if let choice = readLine() {
             switch choice {
             case "1" where squad[0].hp > 0 :
-                choosenFighter(characterNumber: 0)
+                chosenFighter(characterNumber: 0)
             case "2" where squad[1].hp > 0 :
-                choosenFighter(characterNumber: 1)
+                chosenFighter(characterNumber: 1)
             case "3" where squad[2].hp > 0 :
-                choosenFighter(characterNumber: 2)
+                chosenFighter(characterNumber: 2)
             default:
                 print("\n🚣‍♀️ Tape un chiffre correspondant puis appuie sur 'Entrée'.\n\n")
                 pickFighter()
@@ -116,13 +116,13 @@ class Player {
     private func chooseName(of type: String) {
         print("\nTu as opté pour un \(type) choisis-lui un nom 🏷")
         
-        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // Unwrap if conditions are met
-            if Character.charactersNames.contains(userInput) { // To make sure that the name doesn't already exist, checks the array containing all names
+        if let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines), !userInput.isEmpty { // ‣ Unwrap if conditions are met
+            if Character.charactersNames.contains(userInput) { // ‣ To make sure that the name doesn't already exist, checks the static array containing all names
                 print("Ce nom est déjà pris.")
                 chooseName(of: type)
             } else {
-                Character.charactersNames.append(userInput) // If not, adds the value to names array
-                squad[squad.count-1].name = userInput // Also assigns the value to character's 'name' property
+                Character.charactersNames.append(userInput) // ‣ If not, adds the value to names array
+                squad[squad.count-1].name = userInput // ‣ Also assigns the value to character's 'name' property
                 print("\nAdjugé vendu 🙌 Ton \(type) se nommera \(userInput) !\n\n")
             }
         } else {
@@ -131,21 +131,19 @@ class Player {
         }
     }
     
-    private func choosenFighter(characterNumber: Int) {
+    private func chosenFighter(characterNumber: Int) {
         fightingCharacter = squad[characterNumber]
         print("\nTu as choisi de jouer avec \(fightingCharacter.name), ton \(fightingCharacter.characterType)")
         chest() // ‣ random event
     }
     
     private func chest() {
-        // ⬇︎ The value of chestChances determines if a chest appears or not
-        
+        // ⬇︎ The value of chestChances will determine if a chest appears or not
         let chestChances = Int.random(in: 1...10)
         if chestChances <= 5, let chestWeapon = fightingCharacter.chestWeapons.randomElement() {
-            fightingCharacter.drewChestWeapon = chestWeapon
             print("\nAttends voir... 🧝‍♂️✨🧝 Les elfes t'ont fait parvenir un coffre ! Voyons ce qu'il y a dedans... 🔍")
-            print("\nIl contient une arme : ✨ \(fightingCharacter.drewChestWeapon.type) ✨ Cette arme inflige \(fightingCharacter.drewChestWeapon.damages) points de dégâts !")
-            keepChestWeaponOrNot(drewChestWeapon: chestWeapon)// ‣ Asks the player if he'll keep the weapon found in the chest
+            print("\nIl contient une arme : ✨ \(chestWeapon.type) ✨ Cette arme inflige \(chestWeapon.damages) points de dégâts !")
+            keepChestWeaponOrNot(drewChestWeapon: chestWeapon)// ‣ Asks the player if she/he'll keep the weapon found in the chest
         }
     }
     
@@ -177,7 +175,6 @@ class Player {
                 print("\(index+1). Soigner \(character.name) ton \(character.characterType) (\(character.hp)/\(character.maxHp) hp) \n")
             }
         }
-        
         if let choice = readLine() {
             switch choice {
             case "1" where squad[0].hp > 0 :
@@ -214,7 +211,6 @@ class Player {
                 print("\(index+1). Attaquer \(character.name) le \(character.characterType) (\(character.hp)/\(character.maxHp) hp)\n")
             }
         }
-        
         if let choice = readLine() {
             switch choice {
             case "1" where enemySquad[0].hp > 0 : attack(target: enemySquad[0])
@@ -235,6 +231,6 @@ class Player {
             print("\(target.name) n'a plus aucun point de vie 💀 \(target.name) est retiré de l'escouade !\n\n\n")
             target.hp = 0
         }
-        fightingCharacter.currentWeapon = fightingCharacter.defaultWeapon
+        fightingCharacter.currentWeapon = fightingCharacter.defaultWeapon // ‣ Character takes back his default weapon at the end of his turn
     }
 }
